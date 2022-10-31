@@ -18,6 +18,8 @@ class User(AbstractBaseUser):
     role = models.CharField(max_length=254, verbose_name='Роль',
                             choices=(('admin', 'Администратор'), ('user', 'Пользователь')), default='user')
 
+    USERNAME_FIELD = 'username'
+
     def __str__(self):
         return self.name
 
