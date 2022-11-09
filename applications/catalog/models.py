@@ -25,7 +25,7 @@ class User(AbstractBaseUser):
 
 
 class Applications(models.Model):
-    STATUS_CHOICES= [
+    STATUS_CHOICES = [
         ('new', '«Новая»'),
         ('confirmed', 'Принято в работу'),
         ('canceled', 'Выполнено')

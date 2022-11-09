@@ -7,9 +7,9 @@
         </div>
     {% endif %}
 
-    {% if user.if_authenticated %}
+    {% if user.is_authenticated %}
         <p >вы уже авторизованы. <a href="{% url 'logout'%}">Выйти</a></p>
-    {%else%}
+    {% else %}
         <form method="post" action="{% url 'login' %}" >
             {% csrf_token %}
             <table>
