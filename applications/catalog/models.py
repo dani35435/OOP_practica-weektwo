@@ -28,21 +28,31 @@ class User(AbstractUser):
         return self.full_name()
 
 
-# каталог заявок
-# Как продукт
 class Product(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'Новая'),
+        ('confirmed', 'Принято в работу'),
+        ('canceled', 'Выполнено')
+    ]
     name = models.CharField(max_length=254, verbose_name='Имя', blank=False)
     date = models.DateTimeField(verbose_name='Дата добавления', auto_now_add=True)
     photo_file = models.ImageField(max_length=254, upload_to=get_name_file,
                                    blank=True, null=True,
                                    validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
     category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
+    count = models.IntegerField(verbose_name='Количество', blank=False, default=1)
+    status = models.CharField(max_length=254, verbose_name='Статус',
+                              choices=STATUS_CHOICES,
+                              default='new')
 
     def get_absolute_url(self):
         return reverse('product', args=[str(self.id)])
 
     def __str__(self):
         return self.name
+
+    def status_verbose(self):
+        return dict(self.STATUS_CHOICES)[self.status]
 
 
 # Категория заявок
@@ -66,6 +76,7 @@ class Order(models.Model):
                               choices=STATUS_CHOICES,
                               default='new')
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    descriptions = models.TextField(verbose_name='описание', blank=True)
     products = models.ManyToManyField(Product, through='ItemInOrder', related_name='orders')
 
     def count_product(self):
@@ -85,3 +96,4 @@ class Order(models.Model):
 class ItemInOrder(models.Model):
     order = models.ForeignKey(Order, verbose_name='Заявка', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, verbose_name='каталог', on_delete=models.CASCADE)
+    count = models.IntegerField(verbose_name='Количество', blank=False, default=0)

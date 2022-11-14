@@ -9,15 +9,19 @@
                     {% if order.iteminorder_set.all %}
                         <ul>
                             {% for item in order.iteminorder_set.all %}
-                                <li>{{ item.product.name }}  </li>
+                                <li><p><b>Категория заявки :</b> {{ item.product.category }}</p>
+                                   <p><b>Заявка :</b>{{ item.product.name }}</p>
+                                    <p><b>Описание заявки :</b> {{order.descriptions}} </li></p>
                             {% endfor %}
                         </ul>
                     {% endif %}
                 </li>
-
+                {% if order.status == 'new' %}
+                        <a href="{% url 'delete_order'  order.pk %}">Удалить заявку</a>
+                    {% endif %}
             {% endfor %}
         </ol>
     {% else %}
-        <p>У вас пока нет заказов</p>
+        <p class="font-weight-bold">У вас пока нет заказов</p>
     {% endif %}
 {% endblock %}

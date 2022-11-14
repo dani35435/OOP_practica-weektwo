@@ -1,0 +1,14 @@
+{% extends "basic.html" %}
+{% block content %}
+    <h1 style="margin-top:100px;">Каталог заявок</h1>
+        <ul>
+            {% for item in products %}
+                <li>
+                    <b class="h5">категория:</b> {{item.category}}<br>
+                    <b class="h5">Заявка:</b> {{ item.name }}
+                    <p ><b class="h5">дата добавления:</b> {{ item.date }}</p>
+                    <b>Статус заявки: {{item.status_verbose}}</b>
+                </li>
+            {% endfor %}
+        </ul>
+{% endblock %}
