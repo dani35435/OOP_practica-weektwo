@@ -1,16 +1,15 @@
 {% extends "basic.html" %}
 {% block content %}
-    <h1 >Аутентификация</h1>
+    <h1>Аутентификация</h1>
     {% if form.errors %}
         <div class="alert-danger">
-            <p class="p-1">Не правильный логин и пароль</p>
+            <p class="p-1">Не правильный логин или пароль</p>
         </div>
     {% endif %}
-
     {% if user.is_authenticated %}
-        <p >вы уже авторизованы. <a href="{% url 'logout'%}">Выйти</a></p>
+        <p>Вы уже авторизированы. <a href="{% url 'logout' %}">Выйти</a></p>
     {% else %}
-        <form method="post" action="{% url 'login' %}" >
+        <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <table>
                 <tr>

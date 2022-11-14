@@ -7,63 +7,55 @@ from catalog.models import User
 
 class RegisterUserForm(forms.ModelForm):
     username = forms.CharField(label='Логин',
-                               validators=[RegexValidator('^[a-zA-Z-]+$',
-                                                          message="Разрешены только латиница и тире")],
+                               validators=[RegexValidator('^[a-zA-Z0-9-]+$',
+                                                          message="Разрешены только латиница, цифры или тире")],
                                error_messages={
-                                   'required': 'Обязатльное поле',
-                                   'unique': 'Данный логин занят',
+                                   'required': 'Обязательное поле',
+                                   'unique': 'Данный логин занят'
                                })
-
     email = forms.EmailField(label='Адрес электронной почты',
                              error_messages={
-                                 'invalid': 'не правильный формат адреса',
-                                 'unique': 'Данный адрес занят',
+                                 'invalid': 'Не правильный формат адреса',
+                                 'unique': 'Данный адрес занят'
                              })
-
-    password = forms.CharField(label='пароль ',
+    password = forms.CharField(label='Пароль',
                                widget=forms.PasswordInput,
                                error_messages={
                                    'required': 'Обязательное поле',
                                })
-
-    password2 = forms.CharField(label='пароль (повторно)',
+    password2 = forms.CharField(label='Пароль (повторно)',
                                 widget=forms.PasswordInput,
                                 error_messages={
                                     'required': 'Обязательное поле',
                                 })
-
     rules = forms.BooleanField(required=True,
-                               label='Согласие на обработку персональных данных',
+                               label='Согласие с правилами регистрации',
                                error_messages={
-                                   'required': 'Обязатльное поле',
+                                   'required': 'Обязательное поле',
                                })
-
     name = forms.CharField(label='Имя',
                            validators=[RegexValidator('^[а-яА-Я- ]+$',
-                                                      message="только кириллические буквы, дефис и пробелы")],
+                                                      message="Разрешены только кирилица, пробел или тире")],
                            error_messages={
-                               'required': 'Обязатльное поле',
+                               'required': 'Обязательное поле'
                            })
-
     surname = forms.CharField(label='Фамилия',
                               validators=[RegexValidator('^[а-яА-Я- ]+$',
-                                                         message="только кириллические буквы, дефис и пробелы")],
+                                                         message="Разрешены только кирилица, пробел или тире")],
                               error_messages={
-                                  'required': 'Обязатльное поле',
+                                  'required': 'Обязательное поле'
                               })
-
     patronymic = forms.CharField(label='Отчество',
                                  validators=[RegexValidator('^[а-яА-Я- ]+$',
-                                                            message="только кириллические буквы, дефис и пробелы")])
+                                                            message="Разрешены только кирилица, пробел или тире")])
 
     def clean(self):
         super().clean()
         password = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('password2')
-        password2 = self.cleaned_data.get('password2')
         if password and password2 and password != password2:
             raise ValidationError({
-                'password2': ValidationError('Введенные пароли не совпадают', code='password_nisnatch')
+                'password2': ValidationError('Введенные пароли не совпадают', code='password_mismatch')
             })
 
     def save(self, commit=True):
@@ -75,4 +67,5 @@ class RegisterUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2', 'name', 'surname', 'patronymic', 'rules')
+        fields = ('username', 'email', 'password', 'password2',
+                  'name', 'surname', 'patronymic', 'rules')
