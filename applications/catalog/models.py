@@ -63,8 +63,6 @@ class Category(models.Model):
         return self.name
 
 
-# Сами заявки
-# Как order
 class Order(models.Model):
     STATUS_CHOICES = [
         ('new', 'Новая'),
@@ -92,7 +90,6 @@ class Order(models.Model):
         return self.date.ctime() + ' | ' + self.user.full_name() + ' |  ' + str(self.count_product())
 
 
-# то, что хранится в заявках
 class ItemInOrder(models.Model):
     order = models.ForeignKey(Order, verbose_name='Заявка', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, verbose_name='каталог', on_delete=models.CASCADE)

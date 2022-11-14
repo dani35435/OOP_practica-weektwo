@@ -1,8 +1,9 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.forms import inlineformset_factory
 
-from catalog.models import User
+from catalog.models import User, Product
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -69,3 +70,11 @@ class RegisterUserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'password', 'password2',
                   'name', 'surname', 'patronymic', 'rules')
+
+
+class OrderCreate(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+        widgets = {'author': forms.HiddenInput}
+
