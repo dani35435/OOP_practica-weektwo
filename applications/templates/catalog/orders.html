@@ -10,6 +10,8 @@
                                 <li><p><b>Категория заявки :</b> {{ order.category }}</p>
                                    <p><b>Заявка :</b>{{ order.name }}</p>
                                     <p><b>Описание заявки :</b> {{order.descriptions}} </li></p>
+                                <p><b>фото :</b> <img style="height: 100px; width: 100px" class="figure-img" src="media/{{ order.photo_file }}"></p>
+
                         </ul>
                 </li>
                 {% if order.status == 'new' %}

@@ -8,6 +8,7 @@
                     <b class="h5">Заявка:</b> {{ item.name }}
                     <p ><b class="h5">дата добавления:</b> {{ item.date }}</p>
                     <b>Статус заявки: {{item.status_verbose}}</b>
+                    <p><b>фото :</b> <img src="media/{{ product.photo_file }}"></p>
                 </li>
             {% endfor %}
         </ul>

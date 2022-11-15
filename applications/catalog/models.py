@@ -4,6 +4,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
+from catalog.utilities import get_timestamp_path
+
 
 def get_name_file(instanse, filename):
     return '/'.join([get_random_string(length=5) + '_' + filename])
@@ -36,7 +38,7 @@ class Product(models.Model):
     ]
     name = models.CharField(max_length=254, verbose_name='Имя', blank=False)
     date = models.DateTimeField(verbose_name='Дата добавления', auto_now_add=True)
-    photo_file = models.ImageField(max_length=254, upload_to=get_name_file,
+    photo_file = models.ImageField(max_length=254, upload_to=get_timestamp_path,
                                    blank=True, null=True,
                                    validators=[
                                        FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
@@ -77,7 +79,7 @@ class Order(models.Model):
     status = models.CharField(max_length=254, verbose_name='Статус',
                               choices=STATUS_CHOICES,
                               default='new')
-    photo_file = models.ImageField(max_length=254, upload_to=get_name_file,
+    photo_file = models.ImageField(max_length=254, upload_to=get_timestamp_path,
                                    blank=True, null=True,
                                    validators=[
                                        FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
@@ -85,6 +87,8 @@ class Order(models.Model):
     descriptions = models.TextField(verbose_name='описание', blank=True)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through='ItemInOrder', related_name='orders')
+    imageses = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name=' Доп Изображение')
+    commented = models.TextField(default='', verbose_name='Комментарий')
 
     def count_product(self):
         count = 0

@@ -77,3 +77,15 @@ class OrderCreate(forms.ModelForm):
         model = Order
         fields = ('name', 'descriptions', 'category', 'photo_file', 'user')
 
+
+class OrderForm(forms.ModelForm):
+    def clean(self):
+        status = self.cleaned_data.get('status')
+        imageses = self.cleaned_data.get('imageses')
+        commented = self.cleaned_data.get('commented')
+        if self.instance.status != 'new':
+            raise forms.ValidationError({'status': 'Статус можно изменить только у новых заказов'})
+        if status == 'confirmed' and not imageses:
+            raise forms.ValidationError({'status': 'Статус можно изменить только добавив картинку'})
+        if status == 'canceled' and not commented:
+            raise forms.ValidationError({'status': 'Статус можно изменить только добавив коментарий'})
