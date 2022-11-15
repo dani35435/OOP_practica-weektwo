@@ -75,6 +75,5 @@ class RegisterUserForm(forms.ModelForm):
 class OrderCreate(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
-        widgets = {'author': forms.HiddenInput}
+        fields = ('name', 'descriptions', 'category', 'photo_file')
 

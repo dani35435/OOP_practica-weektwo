@@ -1,8 +1,5 @@
 from django.urls import path
-
 from django.contrib.auth import views as auth_views
-
-from catalog import views
 from catalog.views import *
 
 urlpatterns = [
@@ -17,7 +14,7 @@ urlpatterns = [
 
 
     path('orders', OrderListView.as_view(), name='orders'),
-    path('orderCreate', OrderCreate, name='order_create'),
+    path('orderCreate', order_view, name='order_create'),
     path('delete_order/<pk>', delete_order, name='delete_order'),
     path('checkout', checkout, name='checkout'),
 ]

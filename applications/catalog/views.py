@@ -1,10 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.checks import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import CreateView
-from catalog.forms import RegisterUserForm
+from catalog.forms import RegisterUserForm, OrderCreate
 from django.contrib.auth.decorators import login_required
 from catalog.models import Order, Product, Category
 import datetime
@@ -70,13 +70,17 @@ def checkout(request):
     return render(request, 'catalog/checkout.html')
 
 
-def OrderCreate(request):
+@login_required
+def order_view(request):
     if request.method == 'POST':
         form = OrderCreate(request.POST, request.FILES)
         if form.is_valid():
+            form.instance.author_id = request.user.pk
             product = form.save()
             messages.add_message(request, messages.SUCCESS,
-                                 'Объявление добавлено')
-            return redirect('catalog/orders.html')
+                                 'Заявка создана')
+            return redirect('/orders')
     else:
-        return render(request, 'catalog/order_create.html')
+        form = OrderCreate(initial={'author': request.user.pk})
+    context = {'form': form}
+    return render(request, 'catalog/order_create.html', context)

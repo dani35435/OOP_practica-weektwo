@@ -44,6 +44,7 @@ class Product(models.Model):
     status = models.CharField(max_length=254, verbose_name='Статус',
                               choices=STATUS_CHOICES,
                               default='new')
+    descriptions = models.TextField(verbose_name='описание', blank=True)
 
     def get_absolute_url(self):
         return reverse('product', args=[str(self.id)])

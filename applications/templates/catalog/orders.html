@@ -18,9 +18,10 @@
                 </li>
                 {% if order.status == 'new' %}
                         <a href="{% url 'delete_order'  order.pk %}">Удалить заявку</a>
-                    {% endif %}
+                {% endif %}
             {% endfor %}
         </ol>
+        <p><a href="{% url 'order_create' %}">Добавить объявление</a> </p>
     {% else %}
         <p class="font-weight-bold">У вас пока нет заказов</p>
     {% endif %}

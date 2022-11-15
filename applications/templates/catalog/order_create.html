@@ -2,18 +2,13 @@
 
 {% load bootstrap4 %}
 
-{% block title %} Добавление объявления {% endblock %}
+{% block title %} Создание заявки {% endblock %}
 
 {% block content %}
-   <h2 style="margin-top: 100px">Добавление объявления</h2>
+   <h2 style="margin-top: 100px">Создание заявки</h2>
    <form method="post" enctype="multipart/form-data">
        {% csrf_token %}
-       <select name="category" id="id_category">
-            <option value selected>---------</option>
-            <option value="1">3D дизайн</option>
-            <option value="2">2D дизайн</option>
-            <option value="3">Эскиз</option>
-        </select><br>
+       {% bootstrap_form form layout='horizontal' %}
        {% buttons submit='Добавить' %} {% endbuttons %}
    </form>
 {% endblock %}
