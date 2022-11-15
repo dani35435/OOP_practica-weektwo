@@ -21,18 +21,13 @@ def about(request):
 
 
 def catalog(request):
-    category = request.GET.get('category')
-
-    if category:
-        products = Product.objects.filter(status="canceled", category=category)[:4]
-    else:
-        products = Product.objects.filter(status="canceled")
+    products = Product.objects.filter(status="canceled")
 
     order_by = request.GET.get('order_by')
     if order_by:
         products = products.order_by(order_by)
     else:
-        products = products.order_by('-date')
+        products = products.order_by('-date')[:4]
 
     return render(request, 'catalog/catalog.html',
                   context={
