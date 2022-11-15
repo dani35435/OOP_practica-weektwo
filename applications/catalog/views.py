@@ -22,6 +22,8 @@ def about(request):
 def catalog(request):
     orders = Order.objects.filter(status="canceled")
     order_by = request.GET.get('order_by')
+    counter = Order.objects.filter(status='confirmed').count()
+
     if order_by:
         orders = orders.order_by(order_by)
     else:
@@ -31,6 +33,7 @@ def catalog(request):
                   context={
                       'category': Category.objects.all(),
                       'orders': orders,
+                      'counter': counter
                   })
 
 
@@ -50,13 +53,10 @@ class OrderListView(LoginRequiredMixin, generic.ListView):
 def delete_order(request, pk):
     order = Order.objects.filter(user=request.user, pk=pk, status='new')
     if order:
+        messages.add_message(request, messages.SUCCESS,
+                             'Заявка удалена')
         order.delete()
     return redirect('orders')
-
-
-@login_required
-def checkout(request):
-    return render(request, 'catalog/checkout.html')
 
 
 @login_required

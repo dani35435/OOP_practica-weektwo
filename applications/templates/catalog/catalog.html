@@ -1,6 +1,7 @@
 {% extends "basic.html" %}
 {% block content %}
     <h1 style="margin-top:100px;">Каталог заявок</h1>
+        <p class="h4">Количество заявок,в статусе "Принято в работу" : {{counter}}</p>
         <ul>
             {% for item in orders %}
                 <li>
@@ -9,7 +10,7 @@
                     <p ><b class="h5">дата добавления:</b> {{ item.date }}</p>
                     <b>Статус заявки: {{item.status_verbose}}</b>
 
-                    <p><b>фото :</b> <img style="height: 100px; width: 100px" class="figure-img" src="media/{{ item.photo_file }}"></p>
+                    <p><img style="height: 100px; width: 100px" class="figure-img" src="media/{{ item.photo_file }}"></p>
                 </li>
             {% endfor %}
         </ul>

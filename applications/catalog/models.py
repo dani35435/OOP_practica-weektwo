@@ -58,6 +58,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     imageses = models.ImageField(default='',blank=True, upload_to=get_timestamp_path, verbose_name=' Доп Изображение')
     commented = models.TextField(default='', verbose_name='Комментарий')
+    counter = models.IntegerField(null=True, blank=True, verbose_name='счетчик')
 
     def count_product(self):
         count = 0
