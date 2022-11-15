@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.forms import inlineformset_factory
 
-from catalog.models import User, Product, Order
+from catalog.models import User, Order
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -85,7 +85,7 @@ class OrderForm(forms.ModelForm):
         commented = self.cleaned_data.get('commented')
         if self.instance.status != 'new':
             raise forms.ValidationError({'status': 'Статус можно изменить только у новых заказов'})
-        if status == 'confirmed' and not imageses:
+        if status == 'canceled' and not imageses:
             raise forms.ValidationError({'status': 'Статус можно изменить только добавив картинку'})
-        if status == 'canceled' and not commented:
+        if status == 'confirmed' and not commented:
             raise forms.ValidationError({'status': 'Статус можно изменить только добавив коментарий'})

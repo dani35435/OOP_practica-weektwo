@@ -30,36 +30,6 @@ class User(AbstractUser):
         return self.full_name()
 
 
-class Product(models.Model):
-    STATUS_CHOICES = [
-        ('new', 'Новая'),
-        ('confirmed', 'Принято в работу'),
-        ('canceled', 'Выполнено')
-    ]
-    name = models.CharField(max_length=254, verbose_name='Имя', blank=False)
-    date = models.DateTimeField(verbose_name='Дата добавления', auto_now_add=True)
-    photo_file = models.ImageField(max_length=254, upload_to=get_timestamp_path,
-                                   blank=True, null=True,
-                                   validators=[
-                                       FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
-    category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
-    count = models.IntegerField(verbose_name='Количество', blank=False, default=1)
-    status = models.CharField(max_length=254, verbose_name='Статус',
-                              choices=STATUS_CHOICES,
-                              default='new')
-    descriptions = models.TextField(verbose_name='описание', blank=True)
-    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
-
-    def get_absolute_url(self):
-        return reverse('product', args=[str(self.id)])
-
-    def __str__(self):
-        return self.name
-
-    def status_verbose(self):
-        return dict(self.STATUS_CHOICES)[self.status]
-
-
 # Категория заявок
 class Category(models.Model):
     name = models.CharField(max_length=254, verbose_name='Наименование', blank=False)
@@ -86,8 +56,7 @@ class Order(models.Model):
     category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
     descriptions = models.TextField(verbose_name='описание', blank=True)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, through='ItemInOrder', related_name='orders')
-    imageses = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name=' Доп Изображение')
+    imageses = models.ImageField(default='',blank=True, upload_to=get_timestamp_path, verbose_name=' Доп Изображение')
     commented = models.TextField(default='', verbose_name='Комментарий')
 
     def count_product(self):
@@ -102,8 +71,13 @@ class Order(models.Model):
     def __str__(self):
         return self.date.ctime() + ' | ' + self.user.full_name() + ' |  ' + str(self.count_product())
 
+    def get_absolute_url(self):
+        return reverse('product', args=[str(self.id)])
+
+    def __str__(self):
+        return self.name
+
 
 class ItemInOrder(models.Model):
     order = models.ForeignKey(Order, verbose_name='Заявка', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, verbose_name='каталог', on_delete=models.CASCADE)
     count = models.IntegerField(verbose_name='Количество', blank=False, default=0)

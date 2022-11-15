@@ -10,7 +10,6 @@ urlpatterns = [
     path('', catalog, name='catalog'),
     path('about', about, name='about'),
     path('contact', contact, name='contact'),
-    path('product/<pk>', product, name='product'),
 
 
     path('orders', OrderListView.as_view(), name='orders'),

@@ -6,8 +6,7 @@ from django.views import generic
 from django.views.generic import CreateView
 from catalog.forms import RegisterUserForm, OrderCreate
 from django.contrib.auth.decorators import login_required
-from catalog.models import Order, Product, Category
-import datetime
+from catalog.models import Order, Category
 
 
 class RegisterView(CreateView):
@@ -21,27 +20,22 @@ def about(request):
 
 
 def catalog(request):
-    products = Product.objects.filter(status="canceled")
-
+    orders = Order.objects.filter(status="canceled")
     order_by = request.GET.get('order_by')
     if order_by:
-        products = products.order_by(order_by)
+        orders = orders.order_by(order_by)
     else:
-        products = products.order_by('-date')[:4]
+        orders = orders.order_by('-date')[:4]
 
     return render(request, 'catalog/catalog.html',
                   context={
                       'category': Category.objects.all(),
-                      'products': products
+                      'orders': orders,
                   })
 
 
 def contact(request):
     return render(request, 'catalog/contact.html')
-
-
-def product(request):
-    return render(request, 'catalog/product.html')
 
 
 class OrderListView(LoginRequiredMixin, generic.ListView):
@@ -71,7 +65,7 @@ def order_view(request):
         form = OrderCreate(request.POST, request.FILES)
         if form.is_valid():
             form.instance.author_id = request.user.pk
-            product = form.save()
+            order = form.save()
             messages.add_message(request, messages.SUCCESS,
                                  'Заявка создана')
             return redirect('/orders')
