@@ -38,13 +38,15 @@ class Product(models.Model):
     date = models.DateTimeField(verbose_name='Дата добавления', auto_now_add=True)
     photo_file = models.ImageField(max_length=254, upload_to=get_name_file,
                                    blank=True, null=True,
-                                   validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
+                                   validators=[
+                                       FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
     category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
     count = models.IntegerField(verbose_name='Количество', blank=False, default=1)
     status = models.CharField(max_length=254, verbose_name='Статус',
                               choices=STATUS_CHOICES,
                               default='new')
     descriptions = models.TextField(verbose_name='описание', blank=True)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         return reverse('product', args=[str(self.id)])
@@ -71,11 +73,17 @@ class Order(models.Model):
         ('canceled', 'Выполнено')
     ]
     date = models.DateTimeField(verbose_name='Дата заявки', auto_now_add=True)
+    name = models.CharField(max_length=254, verbose_name='Имя', blank=False)
     status = models.CharField(max_length=254, verbose_name='Статус',
                               choices=STATUS_CHOICES,
                               default='new')
-    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    photo_file = models.ImageField(max_length=254, upload_to=get_name_file,
+                                   blank=True, null=True,
+                                   validators=[
+                                       FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
+    category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
     descriptions = models.TextField(verbose_name='описание', blank=True)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through='ItemInOrder', related_name='orders')
 
     def count_product(self):

@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.forms import inlineformset_factory
 
-from catalog.models import User, Product
+from catalog.models import User, Product, Order
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -74,6 +74,6 @@ class RegisterUserForm(forms.ModelForm):
 
 class OrderCreate(forms.ModelForm):
     class Meta:
-        model = Product
-        fields = ('name', 'descriptions', 'category', 'photo_file')
+        model = Order
+        fields = ('name', 'descriptions', 'category', 'photo_file', 'user')
 

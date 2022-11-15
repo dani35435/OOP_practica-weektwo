@@ -6,23 +6,20 @@
             {% for order in order_list %}
                 <li>
                     {{ order.date }} ({{ order.status_verbose }})
-                    {% if order.iteminorder_set.all %}
                         <ul>
-                            {% for item in order.iteminorder_set.all %}
-                                <li><p><b>Категория заявки :</b> {{ item.product.category }}</p>
-                                   <p><b>Заявка :</b>{{ item.product.name }}</p>
+                                <li><p><b>Категория заявки :</b> {{ order.category }}</p>
+                                   <p><b>Заявка :</b>{{ order.name }}</p>
                                     <p><b>Описание заявки :</b> {{order.descriptions}} </li></p>
-                            {% endfor %}
                         </ul>
-                    {% endif %}
                 </li>
                 {% if order.status == 'new' %}
                         <a href="{% url 'delete_order'  order.pk %}">Удалить заявку</a>
                 {% endif %}
             {% endfor %}
         </ol>
-        <p><a href="{% url 'order_create' %}">Добавить объявление</a> </p>
+
     {% else %}
         <p class="font-weight-bold">У вас пока нет заказов</p>
     {% endif %}
+  <p><a href="{% url 'order_create' %}">Добавить объявление</a> </p>
 {% endblock %}
