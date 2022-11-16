@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import CreateView
+from rest_framework.generics import GenericAPIView
+
 from catalog.forms import RegisterUserForm, OrderCreate
 from django.contrib.auth.decorators import login_required
 from catalog.models import Order, Category
@@ -24,7 +26,6 @@ def catalog(request):
     order_by = request.GET.get('order_by')
     counter = Order.objects.filter(status='confirmed').count()
 
-
     if order_by:
         orders = orders.order_by(order_by)
     else:
@@ -42,12 +43,30 @@ def contact(request):
     return render(request, 'catalog/contact.html')
 
 
-class OrderListView(LoginRequiredMixin, generic.ListView):
-    model = Order
-    template_name = 'catalog/orders.html'
+# class OrderListView(LoginRequiredMixin, generic.ListView):
+#     model = Order
+#     template_name = 'catalog/orders.html'
+#
+#     def get_queryset(self):
+#         return Order.objects.filter(user=self.request.user).order_by('-date')
 
-    def get_queryset(self):
-        return Order.objects.filter(user=self.request.user).order_by('-date')
+
+@login_required
+def order_list(request):
+    STATUS_CHOICES = [
+        ('new', 'Новая'),
+        ('confirmed', 'Принято в работу'),
+        ('canceled', 'Выполнено')
+    ]
+    status = request.GET.get('status')
+    if status:
+        orderlist = Order.objects.filter(user=request.user, status=status)
+    else:
+        orderlist = Order.objects.filter(user=request.user)
+    return render(request, 'catalog/orders.html', context={
+        'status': STATUS_CHOICES,
+        'order_list': orderlist
+    })
 
 
 @login_required
