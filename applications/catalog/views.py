@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import CreateView
@@ -33,7 +33,6 @@ def catalog(request):
 
     return render(request, 'catalog/catalog.html',
                   context={
-                      'category': Category.objects.all(),
                       'orders': orders,
                       'counter': counter,
                   })
@@ -41,14 +40,6 @@ def catalog(request):
 
 def contact(request):
     return render(request, 'catalog/contact.html')
-
-
-# class OrderListView(LoginRequiredMixin, generic.ListView):
-#     model = Order
-#     template_name = 'catalog/orders.html'
-#
-#     def get_queryset(self):
-#         return Order.objects.filter(user=self.request.user).order_by('-date')
 
 
 @login_required
@@ -63,20 +54,35 @@ def order_list(request):
         orderlist = Order.objects.filter(user=request.user, status=status)
     else:
         orderlist = Order.objects.filter(user=request.user)
+
     return render(request, 'catalog/orders.html', context={
         'status': STATUS_CHOICES,
-        'order_list': orderlist
+        'order_list': orderlist,
     })
 
 
+# @login_required
+# def delete_order(request, pk):
+#     order = Order.objects.filter(user=request.user, pk=pk, status='new')
+#     if order:
+#         messages.add_message(request, messages.SUCCESS,
+#                              'Заявка удалена')
+#         order.delete()
+#     return redirect('orders')
+
 @login_required
 def delete_order(request, pk):
-    order = Order.objects.filter(user=request.user, pk=pk, status='new')
-    if order:
-        messages.add_message(request, messages.SUCCESS,
-                             'Заявка удалена')
+    order = get_object_or_404(Order, pk=pk)
+    if order.status != 'new':
+        messages.add_message(request, messages.ERROR, 'статус изменен нельзя удалить')
+        return redirect('orders')
+    if request.method == 'POST':
         order.delete()
-    return redirect('orders')
+        messages.add_message(request, messages.SUCCESS, 'удалено')
+        return redirect('orders')
+    else:
+        context = {'order':order}
+        return render(request, 'catalog/order_delete.html', context)
 
 
 @login_required

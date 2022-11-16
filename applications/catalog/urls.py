@@ -13,6 +13,7 @@ urlpatterns = [
 
 
     path('orders', order_list, name='orders'),
+    path('order_delete', delete_order, name='order_delete'),
     path('orderCreate', order_view, name='order_create'),
     path('delete_order/<pk>', delete_order, name='delete_order'),
 ]
