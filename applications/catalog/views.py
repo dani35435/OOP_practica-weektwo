@@ -24,6 +24,7 @@ def catalog(request):
     order_by = request.GET.get('order_by')
     counter = Order.objects.filter(status='confirmed').count()
 
+
     if order_by:
         orders = orders.order_by(order_by)
     else:
@@ -33,7 +34,7 @@ def catalog(request):
                   context={
                       'category': Category.objects.all(),
                       'orders': orders,
-                      'counter': counter
+                      'counter': counter,
                   })
 
 

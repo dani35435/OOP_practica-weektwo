@@ -1,19 +1,19 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from django.forms import inlineformset_factory
-
 from catalog.models import User, Order
 
 
 class RegisterUserForm(forms.ModelForm):
-    username = forms.CharField(label='Логин',
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'required': False}),
                                validators=[RegexValidator('^[a-zA-Z0-9-]+$',
                                                           message="Разрешены только латиница, цифры или тире")],
                                error_messages={
-                                   'required': 'Обязательное поле',
+                                   'invalid': 'Не правильный формат адреса',
+                                   'required': 'Поле для заполнение обязательно',
                                    'unique': 'Данный логин занят'
-                               })
+                               }),
+
     email = forms.EmailField(label='Адрес электронной почты',
                              error_messages={
                                  'invalid': 'Не правильный формат адреса',
@@ -29,7 +29,7 @@ class RegisterUserForm(forms.ModelForm):
                                 error_messages={
                                     'required': 'Обязательное поле',
                                 })
-    rules = forms.BooleanField(required=True,
+    rules = forms.BooleanField(required=False,
                                label='Согласие с правилами регистрации',
                                error_messages={
                                    'required': 'Обязательное поле',
@@ -49,6 +49,18 @@ class RegisterUserForm(forms.ModelForm):
     patronymic = forms.CharField(label='Отчество',
                                  validators=[RegexValidator('^[а-яА-Я- ]+$',
                                                             message="Разрешены только кирилица, пробел или тире")])
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterUserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].required = False
+        self.fields['email'].required = False
+        self.fields['password'].required = False
+        self.fields['password2'].required = False
+        self.fields['rules'].required = False
+        self.fields['name'].required = False
+        self.fields['surname'].required = False
+        self.fields['patronymic'].required = False
+
 
     def clean(self):
         super().clean()
