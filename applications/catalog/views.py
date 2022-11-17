@@ -17,6 +17,10 @@ def about(request):
     return render(request, 'catalog/about.html')
 
 
+def contact(request):
+    return render(request, 'catalog/contact.html')
+
+
 def catalog(request):
     orders = Order.objects.filter(status="canceled")
     order_by = request.GET.get('order_by')
@@ -32,10 +36,6 @@ def catalog(request):
                       'orders': orders,
                       'counter': counter,
                   })
-
-
-def contact(request):
-    return render(request, 'catalog/contact.html')
 
 
 @login_required
