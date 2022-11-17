@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.shortcuts import render
+
 from catalog.models import User, Order
 
 
@@ -60,7 +62,6 @@ class RegisterUserForm(forms.ModelForm):
         self.fields['name'].required = False
         self.fields['surname'].required = False
         self.fields['patronymic'].required = False
-
 
     def clean(self):
         super().clean()

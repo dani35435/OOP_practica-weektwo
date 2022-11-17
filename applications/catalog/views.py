@@ -17,10 +17,6 @@ def about(request):
     return render(request, 'catalog/about.html')
 
 
-def contact(request):
-    return render(request, 'catalog/contact.html')
-
-
 def catalog(request):
     orders = Order.objects.filter(status="canceled")
     order_by = request.GET.get('order_by')

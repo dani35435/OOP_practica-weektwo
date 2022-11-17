@@ -9,8 +9,6 @@ urlpatterns = [
 
     path('', catalog, name='catalog'),
     path('about', about, name='about'),
-    path('contact', contact, name='contact'),
-
 
     path('orders', order_list, name='orders'),
     path('order_delete', delete_order, name='order_delete'),
