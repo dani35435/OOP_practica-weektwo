@@ -11,10 +11,88 @@ h1{
 }
 
 .all_reg{
-	margin-left: 870px;
+	margin-left: 780px;
 }
 
 #id_username{
-    color: #fffefc;
+  	border: 0;
+	background-color: #1c1b19;
+	color: #838280;
+	font-size: 18px;
+	border-radius: 3px;
+	padding: 10px;
+	margin-left: 140px;
+}
+
+#id_email{
+	border: 0;
+	background-color: #1c1b19;
+	color: #838280;
+	font-size: 18px;
+	border-radius: 3px;
+	padding: 10px;
+}
+
+#id_password{
+	border: 0;
+	background-color: #1c1b19;
+	color: #838280;
+	font-size: 18px;
+	border-radius: 3px;
+	padding: 10px;
+	margin-left: 130px;
+}
+
+#id_password2{
+	border: 0;
+	background-color: #1c1b19;
+	color: #838280;
+	font-size: 18px;
+	border-radius: 3px;
+	padding: 10px;
+	margin-left: 50px;
+}
+
+#id_name{
+	border: 0;
+	background-color: #1c1b19;
+	color: #838280;
+	font-size: 18px;
+	border-radius: 3px;
+	padding: 10px;
+	margin-left: 153px;
+}
+
+#id_surname{
+	border: 0;
+	background-color: #1c1b19;
+	color: #838280;
+	font-size: 18px;
+	border-radius: 3px;
+	padding: 10px;
+	margin-left: 120px;
+}
+
+#id_patronymic{
+	border: 0;
+	background-color: #1c1b19;
+	color: #838280;
+	font-size: 18px;
+	border-radius: 3px;
+	padding: 10px;
+	margin-left: 118px;
+}
+
+label{
+	color: #fffefc;
 	margin-right: 30px;
+}
+
+.btno{
+	background-color: #ffe508;
+	border: 0;
+	border-radius: 3px;
+	padding: 8px;
+	margin-top: 35px;
+	font-size: 17px;
 }

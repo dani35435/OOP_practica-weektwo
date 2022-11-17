@@ -1,6 +1,8 @@
 {% extends "basic.html" %}
 {% block content %}
-    <h1>Аутентификация</h1>
+<div class="main">
+    <div class="all_reg">
+    <h1 class="auth">Аутентификация</h1>
     {% if form.errors %}
         <div class="alert-danger">
             <p class="p-1">Не правильный логин или пароль</p>
@@ -9,7 +11,7 @@
     {% if user.is_authenticated %}
         <p>Вы уже авторизированы. <a href="{% url 'logout' %}">Выйти</a></p>
     {% else %}
-        <form method="post" action="{% url 'login' %}">
+        <form  method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <table>
                 <tr>
@@ -21,8 +23,10 @@
                     <td>{{ form.password }}</td>
                 </tr>
             </table>
-            <input type="submit" value="Войти">
+            <input class="btno" type="submit" value="Войти">
             <input type="hidden" name="next" value="{{ next }}">
         </form>
+    </div>
+</div>
     {% endif %}
 {% endblock %}
