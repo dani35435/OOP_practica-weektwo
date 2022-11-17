@@ -1,14 +1,10 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views import generic
 from django.views.generic import CreateView
-from rest_framework.generics import GenericAPIView
-
 from catalog.forms import RegisterUserForm, OrderCreate
 from django.contrib.auth.decorators import login_required
-from catalog.models import Order, Category
+from catalog.models import Order
 
 
 class RegisterView(CreateView):
@@ -51,24 +47,15 @@ def order_list(request):
     ]
     status = request.GET.get('status')
     if status:
-        orderlist = Order.objects.filter(user=request.user, status=status)
+        orderlist = Order.objects.filter(author=request.user, status=status)
     else:
-        orderlist = Order.objects.filter(user=request.user)
+        orderlist = Order.objects.filter(author=request.user)
 
     return render(request, 'catalog/orders.html', context={
         'status': STATUS_CHOICES,
         'order_list': orderlist,
     })
 
-
-# @login_required
-# def delete_order(request, pk):
-#     order = Order.objects.filter(user=request.user, pk=pk, status='new')
-#     if order:
-#         messages.add_message(request, messages.SUCCESS,
-#                              'Заявка удалена')
-#         order.delete()
-#     return redirect('orders')
 
 @login_required
 def delete_order(request, pk):
@@ -81,7 +68,7 @@ def delete_order(request, pk):
         messages.add_message(request, messages.SUCCESS, 'удалено')
         return redirect('orders')
     else:
-        context = {'order':order}
+        context = {'order': order}
         return render(request, 'catalog/order_delete.html', context)
 
 

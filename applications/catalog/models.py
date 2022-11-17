@@ -19,7 +19,7 @@ class User(AbstractUser):
     email = models.CharField(max_length=254, verbose_name='Почта', unique=True, blank=False)
     password = models.CharField(max_length=254, verbose_name='Пароль', blank=False)
     role = models.CharField(max_length=254, verbose_name='Роль',
-                            choices=(('admin', 'Администратор'), ('user', 'Пользователь')), default='user')
+                            choices=(('admin', 'Администратор'), ('user', 'Пользователь'), ('author', 'Автор')), default='user')
 
     USERNAME_FIELD = 'username'
 
@@ -55,7 +55,7 @@ class Order(models.Model):
                                        FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp'])])
     category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
     descriptions = models.TextField(verbose_name='описание', blank=True)
-    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор объявления')
     imageses = models.ImageField(default='', blank=True, upload_to=get_timestamp_path, verbose_name=' Доп Изображение')
     commented = models.TextField(default='', verbose_name='Комментарий')
     counter = models.IntegerField(null=True, blank=True, verbose_name='счетчик')

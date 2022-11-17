@@ -87,7 +87,7 @@ class RegisterUserForm(forms.ModelForm):
 class OrderCreate(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ('name', 'descriptions', 'category', 'photo_file', 'user')
+        fields = ('name', 'descriptions', 'category', 'photo_file')
 
 
 class OrderForm(forms.ModelForm):

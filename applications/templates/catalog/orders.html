@@ -3,9 +3,9 @@
     <h1 style="margin-top: 100px;">Мои заявки</h1>
 
 <div>фильтр по статусу</div>
-<a href="{% url 'orders' %}">все</a>
+    <a href="{% url 'orders' %}">все</a>
 {% for item in status %}
-<a href="{%url 'orders'%}?status={{ item.0 }}">{{ item.1 }}</a>
+    <a href="{%url 'orders'%}?status={{ item.0 }}">{{ item.1 }}</a>
 {% endfor %}
     {% if order_list %}
         <ol>
