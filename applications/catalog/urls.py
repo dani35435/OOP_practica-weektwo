@@ -8,7 +8,6 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
 
     path('', catalog, name='catalog'),
-    path('about', about, name='about'),
 
     path('orders', order_list, name='orders'),
     path('order_delete', delete_order, name='order_delete'),

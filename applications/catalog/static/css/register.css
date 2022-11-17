@@ -1,0 +1,20 @@
+.main{
+	padding-top: 50px;
+	height: 900px;
+	background-color: #25211e;
+}
+
+h1{
+	color: #fffefc;
+	text-align: center;
+	margin-bottom: 40px;
+}
+
+.all_reg{
+	margin-left: 870px;
+}
+
+#id_username{
+    color: #fffefc;
+	margin-right: 30px;
+}

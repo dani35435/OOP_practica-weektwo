@@ -1,1 +1,35 @@
+.top_palka {
+	background-color: #DAA520;
+	height: 8px;
+	width: 100%;
+}
 
+.logo {
+	font-size: 30px;
+	color: #fdfcfa;
+	margin-left: 330px;
+}
+.hеader>a{
+	text-decoration: none;
+}
+
+.hеader {
+	height: 60px;
+	background-color: #1d1c1a;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.links {
+	margin-right: 270px;
+	display: flex;
+	align-items: center;
+}
+
+.links>a {
+	font-size: 17px;
+	text-decoration: none;
+	color: #838280;
+	padding-left: 20px;
+}

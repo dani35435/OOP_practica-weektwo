@@ -13,10 +13,6 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('login')
 
 
-def about(request):
-    return render(request, 'catalog/about.html')
-
-
 def catalog(request):
     orders = Order.objects.filter(status="canceled")
     order_by = request.GET.get('order_by')

@@ -1,0 +1,57 @@
+.text_center {
+	font-size: 30px;
+	color: #fffefc;
+	text-align: center;
+	padding-top: 50px;
+}
+
+.text_bot {
+	font-size: 25px;
+	color: #b6b5b3;
+	text-align: center;
+	margin-top: 15px;
+}
+
+.applications {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 40px;
+}
+
+.block {
+	height: 290px;
+	width: 290px;
+	background-color: #1d1c1a;
+	margin-left: 50px;
+	line-height: 15px;
+}
+
+.text_row {
+	display: flex;
+	align-items: center;
+	color: #fcfbf9;
+	margin-left: 20px;
+
+}
+
+.text_block {
+	font-size: 16px;
+	color: #b6b5b3;
+	line-height: 15px;
+}
+
+
+.text_bot_block {
+	font-size: 14px;
+	margin: 0px;
+	margin-left: 15px;
+
+}
+
+.imgs {
+	height: 70px;
+	width: 70px;
+	margin-left: 100px;
+	margin-top: 35px;
+}
